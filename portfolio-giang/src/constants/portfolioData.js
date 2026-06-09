@@ -26,7 +26,7 @@ export const PORTFOLIO_DATA = {
     },
     {
       name: "WebChat-Fullstack",
-      img: "images/Thumbnail.png",
+      img: "images/Thumbnail (3).png",
       tags: ["React", "Node.js", "MongoDB"],
       gh: "https://github.com/Giang-Duc-Huy/Chatchat"
     },
@@ -38,7 +38,7 @@ export const PORTFOLIO_DATA = {
     },
     {
       name: "Weather Dashboard",
-      img: "images/Thumbnail.png",
+      img: "images/Thumbnail (3).png",
       tags: ["React", "Chart.js", "API"],
       gh: "https://github.com",
       fig: "https://figma.com"
