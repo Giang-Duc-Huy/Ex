@@ -1,7 +1,7 @@
 export default function Skills({ skills, timeline }) {
   return (
     <section id="skills">
-      <p className="sec-heading">// Skills &amp; Stack</p>
+      <p className="sec-heading"><b>Skills &amp; Stack</b></p>
       <div className="skills-cloud fade-in">
         {skills && skills.map(s => (
           <span className="skill-pill" key={s}>{s}</span>

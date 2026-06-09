@@ -1,14 +1,14 @@
 export default function Contact() {
   const contacts = [
-    { icon: "⬡", label: "GitHub", href: "https://github.com" },
-    { icon: "◈", label: "LinkedIn", href: "https://linkedin.com" },
-    { icon: "✉", label: "Email", href: "mailto:dev@example.com" },
-    { icon: "◉", label: "Figma", href: "https://figma.com" },
+    { icon: "⬡", label: "GitHub", href: "https://github.com/Giang-Duc-Huy" },
+    { icon: "◈", label: "LinkedIn", href: "https://www.linkedin.com/in/hijang17" },
+    { icon: "✉", label: "Email", href: "mailto:giangduchuy537@gmail.com" },
+    { icon: "◉", label: "Figma", href: "https://www.figma.com/@hijang17" },
   ];
 
   return (
     <section id="contact">
-      <p className="sec-heading">// Contact</p>
+      <p className="sec-heading"><b>Contact</b></p>
       <div className="contact-grid fade-in">
         {contacts.map(c => (
           <a className="contact-card" key={c.label} href={c.href} target="_blank" rel="noreferrer">

@@ -5,12 +5,12 @@ export default function Hero({ scrollTo, canvasSize, heroRef }) {
     <section id="hero" ref={heroRef}>
       <div className="hero-inner">
         <div>
-          <p className="hero-tag">// Software Engineer</p>
+          <p className="hero-tag"><b>Software Engineer</b></p>
           <h1 className="hero-name">
             Giang<br />
             <span>Duc Huy</span>
           </h1>
-          <p className="hero-role">// Full Stack + UI/UX</p>
+          <p className="hero-role"><i>Full Stack + UI/UX</i></p>
           <p className="hero-desc">
             Building scalable systems &amp; crafting intuitive interfaces. HCMC-based, global mindset.
           </p>

@@ -3,9 +3,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, OrbitControls, Center, Bounds } from "@react-three/drei";
 import * as THREE from "three";
 
-const MODEL_PATH = "/Cyber.glb";
-
-// Map tên material → màu emissive thực từ Blender
+const MODEL_PATH = `${import.meta.env.BASE_URL}/models/Cyber.glb`.replace(/\/\//g, '/');// Map tên material → màu emissive thực từ Blender
 const EMISSIVE_MAP = {
   "Glass":       { emissive: new THREE.Color(0.755, 0.022, 1.0),   emissiveIntensity: 2.5 },
   "LightBlue":   { emissive: new THREE.Color(0.0,   0.252, 1.0),   emissiveIntensity: 3.0 },
@@ -97,4 +95,4 @@ export default function ThreeDModel({ size = 320 }) {
   );
 }
 
-useGLTF.preload(MODEL_PATH);
+useGLTF.preload(`${import.meta.env.BASE_URL}/models/Cyber.glb`.replace(/\/\//g, '/'));

@@ -1,7 +1,7 @@
 export default function About({ data }) {
   return (
     <section id="about">
-      <p className="sec-heading">// About</p>
+      <p className="sec-heading"><b>About</b></p>
       <div className="about-card fade-in">
         <div className="about-avatar">{data.avatarInitial}</div>
         <div>
