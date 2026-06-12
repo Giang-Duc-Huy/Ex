@@ -7,7 +7,7 @@ export default function Projects({ projects }) {
       <div className="projects-grid">
         {projects.map((p, i) => (
           <div className="project-card fade-in" key={i} style={{ transitionDelay: `${i * 0.07}s` }}>
-            <a  href={p.gh || p.fig}  target="_blank" rel="noreferrer">
+            <a  href={p.gh || p.fig}  target="_blank" rel="noreferrer" style ={{ textDecoration: "none" }}>
               <div className="project-img">
                 {p.img
                   ? <img src={`${BASE}${p.img}`} alt={p.name} />
@@ -18,8 +18,8 @@ export default function Projects({ projects }) {
               <div className="project-top">
                 <span className="project-name">{p.name}</span>
                 <div className="project-links">
-                  {p.gh  && <a className="plink" href={p.gh}  target="_blank" rel="noreferrer">⬡ GH</a>}
-                  {p.fig && <a className="plink" href={p.fig} target="_blank" rel="noreferrer">◈ FIG</a>}
+                  {p.gh  && <div className="plink" >⬡ GH</div>}
+                  {p.fig && <div className="plink" >◈ FIG</div>}
                 </div>
               </div>
 

@@ -2,7 +2,7 @@ export const PORTFOLIO_DATA = {
   name: "Giang Duc Huy",
   role: "Full Stack + UI/UX",
   bio: "Building scalable systems & crafting intuitive interfaces. HCMC-based, global mindset.",
-  university: "SE Student @ University of Economic HCM City",
+  university: "SE Student at University of Economic HCM City",
   avatarInitial: "GG",
 
   projects: [
@@ -48,7 +48,7 @@ export const PORTFOLIO_DATA = {
   skills: [
     "React", "TypeScript", "Node.js", "Python", "PostgreSQL", "Figma",
     "Git", "REST API", "Blender", "MongoDB",
-    "Socket.io", "Tailwind", "GraphQL"
+    "Socket.io", "Tailwind"
   ],
 
   timeline: [

@@ -8,7 +8,7 @@ export default function Navbar({ activeSection, scrollTo }) {
   return (
     <>
       <nav>
-        <span className="nav-logo">{'{ \'DEV\' }'}</span>
+        <span className="nav-logo"><img src="./images/Logo.png" alt="Logo" /></span>
         <ul className="nav-links">
           {navItems.map(id => (
             <li key={id}>

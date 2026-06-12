@@ -10,7 +10,8 @@ export default function Hero({ scrollTo, canvasSize, heroRef }) {
             Giang<br />
             <span>Duc Huy</span>
           </h1>
-          <p className="hero-role"><i>Full Stack + UI/UX</i></p>
+          <br />
+          <p className="hero-role"><b>Full Stack + UI/UX</b></p>
           <p className="hero-desc">
             Building scalable systems &amp; crafting intuitive interfaces. HCMC-based, global mindset.
           </p>
@@ -33,8 +34,6 @@ export default function Hero({ scrollTo, canvasSize, heroRef }) {
             </div>
 
             <ThreeDModel size={canvasSize} />
-            <span className="hero-3d-hint">drag to rotate</span>
-            <span className="hero-3d-label">// 3D Model</span>
           </div>
         </div>
       </div>

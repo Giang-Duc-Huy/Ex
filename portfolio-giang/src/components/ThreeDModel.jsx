@@ -3,16 +3,27 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, OrbitControls, Center, Bounds } from "@react-three/drei";
 import * as THREE from "three";
 
-const MODEL_PATH = `${import.meta.env.BASE_URL}/models/Cyber.glb`.replace(/\/\//g, '/');// Map tên material → màu emissive thực từ Blender
+const MODEL_PATH = `${import.meta.env.BASE_URL}/models/Cyber.glb`.replace(/\/\//g, '/');
+
+// Chỉ override EMISSIVE cho các phần đèn/glass — giữ nguyên màu base gốc từ Blender
 const EMISSIVE_MAP = {
-  "Glass":       { emissive: new THREE.Color(0.755, 0.022, 1.0),   emissiveIntensity: 2.5 },
-  "LightBlue":   { emissive: new THREE.Color(0.0,   0.252, 1.0),   emissiveIntensity: 3.0 },
-  "LightOrange": { emissive: new THREE.Color(1.0,   0.185, 0.004), emissiveIntensity: 2.5 },
+  "Glass": {
+    emissive: new THREE.Color(0.755, 0.022, 1.0),
+    emissiveIntensity: 2.0,
+  },
+  "LightBlue": {
+    emissive: new THREE.Color(0.0, 0.252, 1.0),
+    emissiveIntensity: 2.5,
+  },
+  "LightOrange": {
+    emissive: new THREE.Color(1.0, 0.185, 0.004),
+    emissiveIntensity: 2.0,
+  },
 };
 
 function Model() {
   const { scene } = useGLTF(MODEL_PATH);
-  const ref = useRef();
+  const groupRef = useRef();
 
   useEffect(() => {
     scene.traverse((obj) => {
@@ -20,20 +31,18 @@ function Model() {
       const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
       mats.forEach((mat) => {
         if (!mat) return;
-        // Đảm bảo màu base hiển thị đúng sRGB
-        if (mat.color) mat.color.convertSRGBToLinear();
 
-        // Áp emissive từ map nếu có
+        // Giữ nguyên mat.color gốc từ Blender — KHÔNG override
+
         const em = EMISSIVE_MAP[mat.name];
-        if (em && mat.emissive) {
+        if (em && mat.emissive !== undefined) {
           mat.emissive.copy(em.emissive);
           mat.emissiveIntensity = em.emissiveIntensity;
         }
 
-        // Material.001 màu kem — tô đậm hơn
-        if (mat.name === "Material.001") {
-          mat.color.set(0.96, 0.87, 0.72);
-        }
+        // Giảm metalness/roughness extreme để màu base không bị PBR "ăn" mất
+        if (mat.metalness !== undefined) mat.metalness = Math.min(mat.metalness, 0.4);
+        if (mat.roughness !== undefined) mat.roughness = Math.max(mat.roughness, 0.4);
 
         mat.needsUpdate = true;
       });
@@ -41,13 +50,15 @@ function Model() {
   }, [scene]);
 
   useFrame((_, delta) => {
-    if (ref.current) ref.current.rotation.y += delta * 0.3;
+    if (groupRef.current) groupRef.current.rotation.y += delta * 0.3;
   });
 
   return (
-    <Center ref={ref}>
-      <primitive object={scene} />
-    </Center>
+    <group ref={groupRef}>
+      <Center>
+        <primitive object={scene} />
+      </Center>
+    </group>
   );
 }
 
@@ -62,36 +73,46 @@ function Loader() {
 
 export default function ThreeDModel({ size = 320 }) {
   return (
-    <Canvas
-      style={{ width: "100%", height: "100%" }}
-      camera={{ position: [0, 1.2, 7], fov: 42 }}
-      gl={{
-        antialias: true,
-        alpha: true,
-        outputColorSpace: THREE.SRGBColorSpace,
-        toneMapping: THREE.ACESFilmicToneMapping,
-        toneMappingExposure: 0.9,
-      }}
-    >
-      {/* Ánh sáng vừa đủ — không quá chói để màu base hiện ra */}
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[4, 6, 4]}   intensity={1.2} color="#ffffff" castShadow />
-      <directionalLight position={[-4, 2, -3]}  intensity={0.6} color="#cce0ff" />
-      <pointLight       position={[0, 3, 2]}    intensity={0.8} color="#ffffff" />
+     <div style={{
+      width: "100%",
+      maxWidth: "100%",
+      height: size,
+      overflow: "hidden",   // chặn canvas tràn ra ngoài
+    }}>
+      <Canvas
+        style={{ width: "100%", height: "100%" }}
+        camera={{ position: [0, 1.2, 7], fov: 42 }}
+        gl={{
+          antialias: true,
+          alpha: true,
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.3,
+        }}
+      >
+        {/* ❌ BỎ Environment "city" — ánh sáng trắng mạnh lấn mất màu base/emissive */}
 
-      <Suspense fallback={<Loader />}>
-        <Bounds fit clip observe>
-          <Model />
-        </Bounds>
-      </Suspense>
+        {/* Ánh sáng tổng thể tăng để model sáng rõ trên nền tối */}
+        <hemisphereLight skyColor="#4a5fff" groundColor="#0a0a1a" intensity={1.2} />
+        <ambientLight intensity={1.0} />
+        <directionalLight position={[4, 6, 4]}   intensity={1.4} color="#ffffff" />
+        <directionalLight position={[-4, 2, -3]} intensity={0.8} color="#cce0ff" />
+        <pointLight       position={[0, 3, 2]}   intensity={1.0} color="#ffffff" />
+        <pointLight       position={[-3, -1, 3]} intensity={0.6} color="#8899ff" />
 
-      <OrbitControls
-        enableZoom={false}
-        enablePan={false}
-        minPolarAngle={Math.PI / 6}
-        maxPolarAngle={Math.PI * 0.72}
-      />
-    </Canvas>
+        <Suspense fallback={<Loader />}>
+          <Bounds fit clip observe margin={1.2}>
+            <Model />
+          </Bounds>
+        </Suspense>
+
+        <OrbitControls
+          enableZoom={false}
+          enablePan={false}
+          minPolarAngle={Math.PI / 6}
+          maxPolarAngle={Math.PI * 0.72}
+        />
+      </Canvas>
+    </div>
   );
 }
 

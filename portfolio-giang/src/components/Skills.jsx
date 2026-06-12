@@ -1,14 +1,20 @@
 export default function Skills({ skills, timeline }) {
+  const list = skills || [];
+
   return (
     <section id="skills">
       <p className="sec-heading"><b>Skills &amp; Stack</b></p>
-      <div className="skills-cloud fade-in">
-        {skills && skills.map(s => (
-          <span className="skill-pill" key={s}>{s}</span>
-        ))}
+
+      <div className="skills-grid">
+        <div className="skills-track">
+          {/* render 2 lần toàn bộ skills để loop liền mạch (grid 3 hàng, tự chia cột) */}
+          {[...list, ...list, ...list].map((s, i) => (
+            <span className="skill-pill" key={`${i}-${s}`}>{s}</span>
+          ))}
+        </div>
       </div>
 
-      <p className="sec-heading" style={{ marginTop: "3rem" }}>// Timeline</p>
+      <p className="sec-heading" style={{ marginTop: "3rem" }}><b>Timeline</b></p>
       <div className="timeline fade-in">
         {timeline && timeline.map((t, i) => (
           <div className="tl-item" key={i}>
