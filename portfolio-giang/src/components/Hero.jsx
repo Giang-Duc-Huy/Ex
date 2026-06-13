@@ -21,8 +21,7 @@ export default function Hero({ scrollTo, canvasSize, heroRef }) {
           </div>
         </div>
 
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <div className="hero-3d">
+        <div className="hero-3d">
             {/* Floating particles */}
             <div className="hero-3d-particles">
               <div className="particle" />
@@ -35,7 +34,6 @@ export default function Hero({ scrollTo, canvasSize, heroRef }) {
 
             <ThreeDModel size={canvasSize} />
           </div>
-        </div>
       </div>
     </section>
   );

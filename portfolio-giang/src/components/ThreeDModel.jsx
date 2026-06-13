@@ -55,7 +55,7 @@ function Model() {
 
   return (
     <group ref={groupRef}>
-      <Center>
+      <Center >
         <primitive object={scene} />
       </Center>
     </group>
@@ -71,17 +71,16 @@ function Loader() {
   );
 }
 
-export default function ThreeDModel({ size = 320 }) {
+export default function ThreeDModel({ size = "100%" }) {
   return (
-     <div style={{
+    <div style={{
       width: "100%",
-      maxWidth: "100%",
-      height: size,
-      overflow: "hidden",   // chặn canvas tràn ra ngoài
+      height: typeof size === "number" ? size : "100%",
+      overflow: "hidden",
     }}>
       <Canvas
-        style={{ width: "100%", height: "100%" }}
-        camera={{ position: [0, 1.2, 7], fov: 42 }}
+        style={{ width: "100%", height: "100%", display: "block" }}
+        camera={{ position: [0, 0, 7], fov: 42 }}
         gl={{
           antialias: true,
           alpha: true,
@@ -89,9 +88,6 @@ export default function ThreeDModel({ size = 320 }) {
           toneMappingExposure: 1.3,
         }}
       >
-        {/* ❌ BỎ Environment "city" — ánh sáng trắng mạnh lấn mất màu base/emissive */}
-
-        {/* Ánh sáng tổng thể tăng để model sáng rõ trên nền tối */}
         <hemisphereLight skyColor="#4a5fff" groundColor="#0a0a1a" intensity={1.2} />
         <ambientLight intensity={1.0} />
         <directionalLight position={[4, 6, 4]}   intensity={1.4} color="#ffffff" />
@@ -110,6 +106,7 @@ export default function ThreeDModel({ size = 320 }) {
           enablePan={false}
           minPolarAngle={Math.PI / 6}
           maxPolarAngle={Math.PI * 0.72}
+          target={[0, 0, 0]}
         />
       </Canvas>
     </div>
